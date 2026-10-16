@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Brandon Zavaleta</title>
+<meta name="description" content="Brandon Zavaleta, backend developer. Node.js, Express, PostgreSQL.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top">brandon<span class="brand-dot">.</span>dev</a>
+    <nav class="routes" aria-label="Sections">
+      <a href="#about"><span class="verb">GET</span> /about</a>
+      <a href="#projects"><span class="verb">GET</span> /projects</a>
+      <a href="#skills"><span class="verb">GET</span> /skills</a>
+      <a href="#contact"><span class="verb">POST</span> /contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">Backend developer · Node.js · PostgreSQL</p>
+      <h1>Brandon Zavaleta</h1>
+      <p class="lede">I build the parts of software you don't see: APIs, databases, and the scheduled jobs that keep data moving. My latest project tracks Apex Legends ranked progress across a REST API, a poller, and a Discord bot.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#projects">See Apex Tracker</a>
+        <a class="btn btn-ghost" href="https://github.com/rbrandon087" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <figure class="console" aria-label="Example API request and response">
+      <div class="console-bar">
+        <span class="method">GET</span>
+        <span class="path">/developers/brandon</span>
+        <span class="status status-ok">200 OK</span>
+      </div>
+<pre class="console-body"><code>{
+  <span class="k">"name"</span>: <span class="s">"Brandon Zavaleta"</span>,
+  <span class="k">"focus"</span>: <span class="s">"backend"</span>,
+  <span class="k">"stack"</span>: [<span class="s">"Node.js"</span>, <span class="s">"Express"</span>, <span class="s">"PostgreSQL"</span>],
+  <span class="k">"shipped"</span>: [<span class="s">"apex-tracker"</span>],
+  <span class="k">"background"</span>: <span class="s">"healthcare QA &amp; HIPAA compliance"</span>,
+  <span class="k">"openToWork"</span>: <span class="b">true</span>
+}</code></pre>
+    </figure>
+  </section>
+
+  <section id="about" class="section wrap">
+    <h2 class="section-title"><span class="route">/about</span></h2>
+    <div class="about-grid">
+      <p>I finished the UNLV Software Development Bootcamp in 2024 and have spent the past year rebuilding my skills by shipping real projects. I care about understanding why code works, not just getting it to run.</p>
+      <p>My day job is quality assurance in behavioral healthcare: chart audits, HIPAA enforcement, and working with state and county reviewers. That work taught me to test carefully, document clearly, and treat sensitive data with respect. I bring the same habits to backend code.</p>
+    </div>
+  </section>
+
+  <section id="projects" class="section wrap">
+    <h2 class="section-title"><span class="route">/projects</span></h2>
+
+    <article class="project">
+      <header class="project-head">
+        <div>
+          <h3>Apex Tracker</h3>
+          <p class="project-sub">Ranked progress tracking for Apex Legends players, built as three services that talk through one API.</p>
+        </div>
+        <ul class="tags" aria-label="Technologies">
+          <li>Node.js</li><li>Express 5</li><li>PostgreSQL</li><li>discord.js</li><li>Render</li>
+        </ul>
+      </header>
+
+      <div class="flow" role="img" aria-label="Architecture: Discord users talk to the bot, the bot and the poller call the Express API, the API reads and writes PostgreSQL, and the poller and API call the Apex Legends Status API.">
+        <div class="flow-row">
+          <div class="node node-ext">Discord</div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="node">Bot<small>discord.js</small></div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="node node-core">REST API<small>Express</small></div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="node node-db">PostgreSQL<small>Render</small></div>
+        </div>
+        <div class="flow-row flow-row-2">
+          <div class="node">Poller<small>every 15 min</small></div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="node node-ext">Apex Legends Status API</div>
+        </div>
+      </div>
+
+      <div class="project-grid">
+        <div class="project-col">
+          <h4>What I built</h4>
+          <ul class="points">
+            <li>A four-table relational schema with foreign keys: users, rank snapshots, legend stats, and guilds.</li>
+            <li>An Express API that is the only path to the database, so the bot and poller never touch it directly.</li>
+            <li>A poller that saves a rank snapshot for every player every 15 minutes, so history builds with no gaps.</li>
+            <li>Slash commands <code>/register</code> and <code>/rank</code>, with deferred replies to beat Discord's 3-second limit.</li>
+          </ul>
+        </div>
+        <div class="project-col">
+          <h4>Decisions I'd defend in an interview</h4>
+          <ul class="points">
+            <li>Players are stored by permanent Apex UID, because display names change.</li>
+            <li>Each player lookup runs in its own <code>try/catch</code>, so one failure never stops the poll.</li>
+            <li>Every query is parameterized. That fixed a real bug where a template literal saved the text "null" instead of SQL <code>NULL</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="routes-table">
+          <caption>Selected API routes</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Route</th><th scope="col">Returns</th></tr></thead>
+          <tbody>
+            <tr><td><span class="verb">POST</span></td><td><code>/users</code></td><td><span class="code c201">201</span> created · <span class="code c409">409</span> already registered</td></tr>
+            <tr><td><span class="verb">GET</span></td><td><code>/users/discord/:discordId</code></td><td><span class="code c200">200</span> user · <span class="code c404">404</span> not found</td></tr>
+            <tr><td><span class="verb">GET</span></td><td><code>/users/:id/rank-snapshots</code></td><td><span class="code c200">200</span> full rank history</td></tr>
+            <tr><td><span class="verb">GET</span></td><td><code>/users/:id/rank-snapshots/latest</code></td><td><span class="code c200">200</span> newest snapshot</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="project-links">
+        <a class="btn btn-primary" href="https://github.com/rbrandon087/Apex-Tracker" target="_blank" rel="noopener">View the code</a>
+        <a class="btn btn-ghost" href="https://apex-tracker-tqxf.onrender.com" target="_blank" rel="noopener">Live API</a>
+        <button class="btn btn-ghost" id="ping-api" type="button">Ping the API</button>
+        <output id="ping-result" class="ping-result" aria-live="polite">Free tier sleeps when idle; the first request can take about a minute.</output>
+      </div>
+    </article>
+
+    <article class="project project-next">
+      <h3>Next up</h3>
+      <p>An AI research assistant for games, built in Python. More soon.</p>
+    </article>
+  </section>
+
+  <section id="skills" class="section wrap">
+    <h2 class="section-title"><span class="route">/skills</span></h2>
+    <dl class="skills">
+      <div><dt>Languages</dt><dd>JavaScript (Node.js), SQL, Python, HTML/CSS</dd></div>
+      <div><dt>Backend</dt><dd>Express, REST API design, PostgreSQL, <code>pg</code>, scheduled jobs, third-party APIs</dd></div>
+      <div><dt>Tools</dt><dd>Git, GitHub, Render, discord.js, dotenv, VS Code</dd></div>
+      <div><dt>Habits from QA</dt><dd>Testing edge cases, clear documentation, handling sensitive data</dd></div>
+    </dl>
+  </section>
+
+  <section id="contact" class="section wrap">
+    <h2 class="section-title"><span class="route">/contact</span></h2>
+    <div class="contact">
+      <p>Hiring for a junior backend or QA automation role? I'd like to hear about it.</p>
+      <div class="email-row">
+        <span id="email" class="email">braanbrann22@gmail.com</span>
+        <button class="btn btn-primary" id="copy-email" type="button">Copy email</button>
+      </div>
+      <p class="contact-links">
+        <a href="https://github.com/rbrandon087" target="_blank" rel="noopener">GitHub</a>
+        <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">© <span id="year">2026</span> Brandon Zavaleta</div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
