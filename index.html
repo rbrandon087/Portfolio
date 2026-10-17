@@ -26,9 +26,9 @@
 <main id="top">
   <section class="hero wrap">
     <div class="hero-copy">
-      <p class="eyebrow">Backend developer · Node.js · PostgreSQL</p>
+      <p class="eyebrow">Backend developer · Node.js · Python · PostgreSQL</p>
       <h1>Brandon Zavaleta</h1>
-      <p class="lede">I build the parts of software you don't see: APIs, databases, and the scheduled jobs that keep data moving. My latest project tracks Apex Legends ranked progress across a REST API, a poller, and a Discord bot.</p>
+      <p class="lede">I build the parts of software you don't see: APIs, databases, and the scheduled jobs that keep data moving. I've shipped a ranked-progress tracker for Apex Legends and an AI research assistant for games, both running through Discord.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#projects">See Apex Tracker</a>
         <a class="btn btn-ghost" href="https://github.com/rbrandon087" target="_blank" rel="noopener">GitHub</a>
@@ -44,8 +44,8 @@
 <pre class="console-body"><code>{
   <span class="k">"name"</span>: <span class="s">"Brandon Zavaleta"</span>,
   <span class="k">"focus"</span>: <span class="s">"backend"</span>,
-  <span class="k">"stack"</span>: [<span class="s">"Node.js"</span>, <span class="s">"Express"</span>, <span class="s">"PostgreSQL"</span>],
-  <span class="k">"shipped"</span>: [<span class="s">"apex-tracker"</span>],
+  <span class="k">"stack"</span>: [<span class="s">"Node.js"</span>, <span class="s">"Python"</span>, <span class="s">"PostgreSQL"</span>],
+  <span class="k">"shipped"</span>: [<span class="s">"apex-tracker"</span>, <span class="s">"discord-ai-bot"</span>],
   <span class="k">"background"</span>: <span class="s">"healthcare QA &amp; HIPAA compliance"</span>,
   <span class="k">"openToWork"</span>: <span class="b">true</span>
 }</code></pre>
@@ -132,9 +132,54 @@
       </div>
     </article>
 
-    <article class="project project-next">
-      <h3>Next up</h3>
-      <p>An AI research assistant for games, built in Python. More soon.</p>
+    <article class="project">
+      <header class="project-head">
+        <div>
+          <h3>Discord AI Bot</h3>
+          <p class="project-sub">A private game research assistant. Ask it about quests, weapons, or game info in a DM and it searches the web and answers, remembering the conversation.</p>
+        </div>
+        <ul class="tags" aria-label="Technologies">
+          <li>Python</li><li>discord.py</li><li>OpenAI API</li><li>asyncio</li>
+        </ul>
+      </header>
+
+      <div class="flow" role="img" aria-label="Architecture: a player sends a direct message on Discord, the bot passes it to the OpenAI Responses API with web search turned on, and the bot keeps one response ID per user so the conversation continues.">
+        <div class="flow-row">
+          <div class="node node-ext">Your DM</div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="node node-core">Bot<small>discord.py</small></div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="node node-ext">OpenAI Responses API<small>gpt-4o-mini + web search</small></div>
+        </div>
+        <div class="flow-row flow-row-2">
+          <div class="node node-db">Conversation memory<small>one response ID per user</small></div>
+        </div>
+      </div>
+
+      <div class="project-grid">
+        <div class="project-col">
+          <h4>What I built</h4>
+          <ul class="points">
+            <li>A Discord bot that answers only in direct messages and ignores its own messages.</li>
+            <li>An async OpenAI integration with the web search tool, so answers use current game info, not just what the model was trained on.</li>
+            <li>Per-user conversation memory, so follow-up questions like "what's the next step?" make sense.</li>
+            <li>A typing indicator while the answer is generated.</li>
+          </ul>
+        </div>
+        <div class="project-col">
+          <h4>Decisions I'd defend in an interview</h4>
+          <ul class="points">
+            <li>Memory stores one <code>previous_response_id</code> per user instead of resending the whole chat history every time.</li>
+            <li>Long answers are split into 2,000-character chunks, because Discord rejects longer messages.</li>
+            <li>I used the async OpenAI client so waiting on an answer doesn't freeze the bot.</li>
+            <li>API keys live in <code>.env</code>, which is kept out of the repo by <code>.gitignore</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="project-links">
+        <a class="btn btn-primary" href="https://github.com/rbrandon087/Discord-AI-Bot" target="_blank" rel="noopener">View the code</a>
+      </div>
     </article>
   </section>
 
@@ -143,7 +188,7 @@
     <dl class="skills">
       <div><dt>Languages</dt><dd>JavaScript (Node.js), SQL, Python, HTML/CSS</dd></div>
       <div><dt>Backend</dt><dd>Express, REST API design, PostgreSQL, <code>pg</code>, scheduled jobs, third-party APIs</dd></div>
-      <div><dt>Tools</dt><dd>Git, GitHub, Render, discord.js, dotenv, VS Code</dd></div>
+      <div><dt>Tools</dt><dd>Git, GitHub, Render, discord.js, discord.py, OpenAI API, dotenv, VS Code</dd></div>
       <div><dt>Habits from QA</dt><dd>Testing edge cases, clear documentation, handling sensitive data</dd></div>
     </dl>
   </section>
@@ -158,7 +203,7 @@
       </div>
       <p class="contact-links">
         <a href="https://github.com/rbrandon087" target="_blank" rel="noopener">GitHub</a>
-        <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/brannzavaleta11/" target="_blank" rel="noopener">LinkedIn</a>
       </p>
     </div>
   </section>
