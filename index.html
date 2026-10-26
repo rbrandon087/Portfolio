@@ -186,33 +186,56 @@
       <header class="project-head">
         <div>
           <h3>Hollowmere: The Narrator Awakens <span class="status-badge">In progress</span></h3>
-          <p class="project-sub">An AI Dungeon Master text adventure. Pick a genre, name your character, and an AI narrator builds a spooky, detailed world around you, one choice at a time.</p>
+          <p class="project-sub">An AI Dungeon Master text adventure. Build a character, roll real dice, and an AI narrator runs a spooky, detailed story that's saved to a database as you play.</p>
         </div>
         <ul class="tags" aria-label="Technologies">
-          <li>Python</li><li>OpenAI API</li>
+          <li>Python</li><li>PostgreSQL</li><li>psycopg</li><li>OpenAI API</li><li>Flask</li>
         </ul>
       </header>
+
+      <div class="flow" role="img" aria-label="Architecture: the player types actions into the Python game, the game rolls dice in code, sends the story to the OpenAI Responses API for narration, and saves every turn, roll, and item to PostgreSQL.">
+        <div class="flow-row">
+          <div class="node node-ext">Player</div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="node node-core">Game<small>Python</small></div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="node node-ext">OpenAI Responses API<small>the narrator</small></div>
+        </div>
+        <div class="flow-row flow-row-2">
+          <div class="node">Dice<small>rolled in code</small></div>
+          <div class="node node-db">PostgreSQL<small>7 tables</small></div>
+        </div>
+      </div>
 
       <div class="project-grid">
         <div class="project-col">
           <h4>Working now</h4>
           <ul class="points">
-            <li>A genre menu (horror, fantasy, or both) that re-prompts on invalid input.</li>
-            <li>A detailed system prompt, built from the player's name and genre, that sets the narrator's voice and rules.</li>
-            <li>The OpenAI Responses API narrates an opening scene, then a game loop takes the player's actions, with <code>help</code> and <code>quit</code> commands.</li>
-            <li>Narrator rules: never act for the player, never tell them how they feel, never solve their puzzles.</li>
+            <li>Character creation with 10 races, 13 classes, 10 backgrounds or a custom one, and six ability scores rolled 4d6-drop-lowest.</li>
+            <li>Starting equipment by class, all of it known to the narrator along with race, class, background, and scores.</li>
+            <li>A <code>roll</code> command: the narrator asks for a d20 on risky actions and narrates the result from a fixed table, from disaster on a 1 to extraordinary on a 20.</li>
+            <li>A PostgreSQL database with seven tables. Every turn, roll, and item is saved, and adventures can be loaded, deleted, or restarted.</li>
+            <li>The start of a Flask web app, with Google sign-in registered through Authlib.</li>
           </ul>
         </div>
         <div class="project-col">
-          <h4>Coming next</h4>
+          <h4>Key design decisions</h4>
           <ul class="points">
-            <li>Conversation memory, so the narrator remembers the story from turn to turn.</li>
-            <li>Dice rolls handled by code, not the AI, so results are truly random.</li>
-            <li>Character creation with race, class, and ability scores.</li>
-            <li>A web version with logins and saved stories, playable in any browser.</li>
-            <li>Automated tests.</li>
+            <li>Dice are rolled in code, never by the AI, so results are truly random and can't be bent to fit the story.</li>
+            <li>The story is saved one row per turn instead of as one big JSON blob, so saving a turn never rewrites the whole story.</li>
+            <li>Deleting an adventure clears its turns, rolls, and equipment first, so foreign keys never leave orphaned rows.</li>
+            <li>Strict narrator rules: it never acts for the player, never describes their feelings, and never hands them items they didn't find.</li>
           </ul>
         </div>
+      </div>
+
+      <div class="next-up">
+        <h4>Coming next</h4>
+        <ul class="points">
+          <li>Finish Google sign-in and move the game into the browser, with a dark medieval look.</li>
+          <li>Multiplayer parties, save slots, and dice roll history.</li>
+          <li>Automated tests.</li>
+        </ul>
       </div>
 
       <div class="project-links">
@@ -236,7 +259,7 @@
     <div class="contact">
       <p>Hiring for a junior backend or QA automation role? I'd like to hear about it.</p>
       <div class="email-row">
-        <span id="email" class="email">braanbrann22@gmail.com</span>
+        <span id="email" class="email">rbrandon087@gmail.com</span>
         <button class="btn btn-primary" id="copy-email" type="button">Copy email</button>
       </div>
       <p class="contact-links">
